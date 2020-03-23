@@ -1,0 +1,54 @@
+{{ define "title" }}
+  {{ .Title }} · {{ .Site.Title }}
+{{ end }}
+{{ define "content" }}
+  <section class="container post">
+    <article class="h-entry">
+      <header>
+        <div class="post-title">
+          <h1 class="title">{{ .Title }}</h1>
+        </div>
+        <div class="post-meta">
+          <a rel="author" class="p-author h-card hidden" href="{{ .Site.BaseURL | relLangURL }}">Jean-Philippe Caruana</a>
+          <div class="date">
+            <span class="posted-on">
+              <i class="fas fa-calendar-minus"></i>
+              <a class="u-url" href="{{ .Params.ExternalLink | default .RelPermalink }}">
+              <time class="dt-published" datetime='{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}'>
+                {{ $mymonths := index $.Site.Data.mois }}
+                {{ .Date.Day }} {{ index $mymonths (printf "%d" .Date.Month) }} {{ .Date.Year }}
+              </time>
+              </a>
+            </span>
+            <span class="reading-time">
+              <i class="fas fa-clock"></i>
+              {{ i18n "reading_time" .ReadingTime }}
+            </span>
+          </div>
+          {{ with .Page.Params.Categories }}{{ partial "taxonomy/categories.html" . }}{{ end }}
+          {{ with .Page.Params.Tags }}{{ partial "taxonomy/tags.html" . }}{{ end }}
+          {{ if .Page.Params.original_url }}
+          <div class="source"><i class="fas fa-link"></i>
+            Article original : <a href="{{ .Page.Params.original_url }}" target="_blank">{{ .Page.Params.original_url }}</a>
+          </div>
+          {{ end }}
+        </div>
+      </header>
+
+      <div class="p-name p-content">
+        {{ if .Params.featured_image }}
+          <img src='{{ .Params.featured_image }}' alt="Featured image"/>
+        {{ end }}
+        {{ .Content }}
+      </div>
+
+
+      <footer>
+        {{with .PrevInSection }}<i class="fa fa-arrow-left"></i><a href="{{.RelPermalink}}">Précédent</a>{{end}}
+        {{with .NextInSection }}<span class="separator">•••</span> <a href="{{.RelPermalink}}">Suivant</a><i class="fa fa-arrow-right"></i>{{end}}
+        {{ partial "posts/series.html" . }}
+      </footer>
+    </article>
+
+  </section>
+{{ end }}

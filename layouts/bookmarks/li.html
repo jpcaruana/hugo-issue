@@ -1,0 +1,7 @@
+<li class="bookmark h-entry">
+  <span class="date">{{ $mymonths := index $.Site.Data.mois }}{{ .Date.Day }} {{ index $mymonths (printf "%d" .Date.Month) }} {{ .Date.Year }}</span>
+  <span class="content_in_list"><i class="fas fa-bookmark"></i> <a  class="u-bookmark-of h-cite" href="{{ .Params.Signet }}" target="_blank">{{ .Params.Signet }}</a>
+{{ with .Summary }}<p><i class="fas fa-bookmark"></i> {{ . }}</p>{{ end }}
+{{ with .Page.Params.Bookmarktags }}{{ partial "taxonomy/bookmarktags.html" . }}{{ end }}
+</span>
+</li>

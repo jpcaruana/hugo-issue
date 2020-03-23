@@ -1,0 +1,25 @@
+{{ define "title" }}
+  {{ .Title }} · {{ .Site.Title }}
+{{ end }}
+{{ define "content" }}
+
+<section class="container list">
+{{ .Content }}
+{{ with .Site.GetPage "section" "posts" }}
+{{ range .Data.Pages.GroupByDate "2006" }}
+  <article>
+    <header>
+      <h2>{{ .Key }}</h2>
+    </header>
+
+    <ul>
+      {{ range .Pages }}
+        {{- .Render "li" -}}
+      {{ end }}
+    </ul>
+  </article>
+{{ end }}
+{{ end }}
+</section>
+
+{{ end }}

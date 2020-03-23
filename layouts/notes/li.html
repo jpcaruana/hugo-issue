@@ -1,0 +1,4 @@
+<li>
+  <span class="date">{{ $mymonths := index $.Site.Data.mois }}{{ .Date.Day }} {{ index $mymonths (printf "%d" .Date.Month) }} {{ .Date.Year }}</span>
+  <a class="title" href="{{ .Params.ExternalLink | default .RelPermalink }}">{{ .Title }}</a>
+</li>

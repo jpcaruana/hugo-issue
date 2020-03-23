@@ -1,0 +1,19 @@
+<section class="container list">
+  <h1 class="title">
+    {{- if eq .Kind "taxonomy" -}}
+      {{- i18n .Data.Singular | title -}}
+      {{- print ": " -}}
+    {{- end -}}
+
+    {{- .Title -}}
+  </h1>
+  <ul>
+    {{ range .Paginator.Pages }}
+    <li>
+      <span class="date">{{ $mymonths := index $.Site.Data.mois }}{{ .Date.Day }} {{ index $mymonths (printf "%d" .Date.Month) }} {{ .Date.Year }}</span>
+      <a class="title" href="{{ .Params.ExternalLink | default .RelPermalink }}">{{ .Title }}</a>
+    </li>
+    {{ end }}
+  </ul>
+  {{ partial "pagination.html" . }}
+</section>

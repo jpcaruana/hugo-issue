@@ -1,0 +1,9 @@
+<div class="tags">
+  <i class="fas fa-hashtag"></i>
+  {{- range $index, $el := . -}}
+    {{- if gt $index 0 }}
+      <span class="separator">•</span>
+    {{- end }}
+    <a class="p-category" href="{{ ( printf "tags/%s/" ( . | urlize ) ) | relLangURL }}">{{ . }}</a>
+  {{- end -}}
+</div>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{ with .Site.Params.author }}<meta name="author" content="{{ . }}">{{ end }}
+    {{ with .Site.Params.description }}<meta name="description" content="{{ . }}">{{ end }}
+    {{ with .Site.Params.keywords }}<meta name="keywords" content="{{ . }}">{{ end }}
+    {{ template "_internal/twitter_cards.html" . }}
+    {{ template "_internal/opengraph.html" . }}
+    {{ if .Permalink }}
+      <base href="{{ .Permalink }}">
+    {{ end }}
+    <title>{{ block "title" . }}{{ .Site.Title }}{{ end }}</title>
+    {{ if .Permalink }}
+      <link rel="canonical" href="{{ .Permalink }}">
+    {{ if .Site.IsServer }}
+      {{ $cssOpts := (dict "targetPath" "css/coder.css" "enableSourceMap" true ) }}
+      {{ $styles := resources.Get "scss/coder.scss" | resources.ExecuteAsTemplate "style.coder.css" . | toCSS $cssOpts }}
+      <link rel="stylesheet" href="{{ $styles.RelPermalink }}" media="screen">
+    {{ else }}
+      {{ $cssOpts := (dict "targetPath" "css/coder.css" ) }}
+      {{ $styles := resources.Get "scss/coder.scss" | resources.ExecuteAsTemplate "style.coder.css" . | toCSS $cssOpts | minify | fingerprint }}
+      <link rel="stylesheet" href="{{ $styles.RelPermalink }}" integrity="{{ $styles.Data.Integrity }}" crossorigin="anonymous" media="screen" />
+    {{ end }}
+    {{ end }}
+    {{- $fontCss := resources.Get "css/fonts.css" }}
+    {{- $normalizeCss := resources.Get "css/normalize-8.0.1.min.css" }}
+    {{- $customCss := resources.Get "css/custom.css" }}
+    {{- $css := slice $fontCss $normalizeCss $customCss | resources.Concat "css/mytheme.css" | resources.Minify | resources.Fingerprint "sha512" }}
+    <link rel="stylesheet" href="{{ $css.Permalink }}" integrity="{{ $css.Data.Integrity }}" crossorigin="anonymous" media="screen"/>
+    {{ range .Site.Params.custom_js }}
+      <script src="{{ . | relURL }}"></script>
+    {{ end }}
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    {{ range .AlternativeOutputFormats -}}
+      {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
+    {{ end -}}
+    {{ if .Site.IsServer }}
+    {{ else }}
+      {{ $js := resources.Get "js/matomo.js" }}
+      {{ $matomoJS := $js | resources.Fingerprint "sha512" }}
+    <script defer type="text/javascript" src="{{ $matomoJS.Permalink }}" integrity="{{ $matomoJS.Data.Integrity }}"></script>
+    {{ end }}
+    {{ with .Site.Params.authorization_endpoint }}<link rel="authorization_endpoint" href="{{ . }}" />{{ end }}
+    {{ with .Site.Params.token_endpoint }}<link rel="token_endpoint" href="{{ . }}" />{{ end }}
+    {{ with .Site.Params.webmention }}<link rel="webmention" href="{{ . }}" />{{ end }}
+    {{ with .Site.Params.pingback }}<link rel="pingback" href="{{ . }}" />{{ end }}
+    {{ hugo.Generator }}
+  </head>
+  {{ $csClass := "colorscheme-light" }}
+  {{ if eq .Site.Params.colorscheme "dark" }}
+    {{ $csClass = "colorscheme-dark" }}
+  {{ else if eq .Site.Params.colorscheme "auto" }}
+    {{ $csClass = "colorscheme-auto" }}
+  {{ end }}
+  <body class="{{ $csClass }}">
+    <main class="wrapper">
+      {{ partial "header.html" . }}
+      <div class="content">
+        {{ block "content" . }}{{ end }}
+      </div>
+      {{ partial "footer.html" . }}
+    </main>
+    {{- $faCss := resources.Get "css/fa-5.11.2-all.min.css" }}
+    {{- $css := slice $faCss | resources.Concat "css/fa.css" | resources.Minify | resources.Fingerprint "sha512" }}
+    <link rel="stylesheet" href="{{ $css.Permalink }}" integrity="{{ $css.Data.Integrity }}" crossorigin="anonymous" media="screen"/>
+  </body>
+</html>

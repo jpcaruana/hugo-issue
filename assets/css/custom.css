@@ -1,0 +1,28 @@
+a.noclick {
+	color: currentColor;
+	cursor: pointer;
+	text-decoration: none;
+}
+.navigation .navigation-title {
+	letter-spacing: 0rem;
+	text-transform: none;
+	font-size: 2.5rem;
+}
+#search-query {
+	width: 100%;
+	border-radius: 25px;
+	border: 1px solid black;
+	padding: 10px;
+}
+li.bookmark {
+	margin-bottom: 20px;
+}
+span.content_in_list {
+	margin-left: 3rem;
+}
+span.content_in_list p,
+span.content_in_list div.tags {
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-left: 26.4rem;
+}

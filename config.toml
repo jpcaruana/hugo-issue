@@ -1,0 +1,54 @@
+baseURL = "https://some.url.fr/"
+defaultContentLanguage = "fr"
+languageCode = "fr-fr"
+title = "This is a blog"
+
+theme = "hugo-coder"
+paginate = 20
+canonifyurls = true
+
+pygmentsstyle = "bw"
+pygmentscodefences = true
+pygmentscodefencesguesssyntax = true
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+  bookmarktag = "bookmarktags"
+
+[params]
+    author = "Jean-Philippe Caruana"
+    info = "Bienvenue sur mon site personnel"
+    description = "Jean-Philippe Caruana's personal website"
+    keywords = "blog,developer,personal"
+    avatarurl = "/img/avatar.jpg"
+
+    authorization_endpoint = "https://indieauth.com/auth"
+    token_endpoint = "https://tokens.indieauth.com/token"
+    webmention = "https://webmention.io/fr/webmention"
+    pingback = "https://webmention.io/fr/xmlrpc"
+
+    footercontent = ""
+    since = 2007
+
+    hidecredits = false
+    hidecopyright = false
+    math = false
+
+
+# Menu links
+[[menu.main]]
+    name = "Blog"
+    weight = 2
+    url  = "/posts/"
+[[menu.main]]
+    name = "Notes"
+    weight = 3
+    url  = "/notes/"
+[[menu.main]]
+    name = "Bookmarks"
+    weight = 4
+    url  = "/bookmarks/"
